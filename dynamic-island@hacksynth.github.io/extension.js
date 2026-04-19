@@ -5,6 +5,7 @@ import { ActivityManager } from './src/activity-manager.js';
 import { IslandView } from './src/island-view.js';
 import { PanelIntegration } from './src/panel-integration.js';
 import { InteractionController } from './src/interaction-controller.js';
+import { ExpansionController } from './src/expansion-controller.js';
 import { KeyboardProvider } from './src/providers/keyboard.js';
 import { PowerProvider } from './src/providers/power.js';
 import { VolumeBrightnessProvider } from './src/providers/volume-brightness.js';
@@ -23,6 +24,7 @@ export default class DynamicIslandExtension extends Extension {
         this._panel = new PanelIntegration(this._view);
         this._panel.mount();
         this._interaction = new InteractionController(this._view, this._manager, this);
+        this._expansion = new ExpansionController(this._view, this._manager);
 
         // 250ms ticker to expire transients.
         this._tickId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 250, () => {
@@ -72,6 +74,7 @@ export default class DynamicIslandExtension extends Extension {
         for (const p of (this._providers ?? [])) p.disable();
         this._providers = [];
 
+        this._expansion?.destroy(); this._expansion = null;
         this._interaction?.destroy(); this._interaction = null;
         this._panel?.destroy(); this._panel = null;
         this._unsub?.(); this._unsub = null;

@@ -14,9 +14,9 @@ export class InteractionController {
         this._handlers = [];
         this._contextMenu = null;
 
+        // Hover events are owned by ExpansionController so pill and overlay
+        // can be treated as one hover target. Only discrete actions live here.
         this._handlers.push(
-            view.connect('enter-event', () => { manager.setHover(true); return Clutter.EVENT_PROPAGATE; }),
-            view.connect('leave-event', () => { manager.setHover(false); return Clutter.EVENT_PROPAGATE; }),
             view.connect('button-press-event', (_a, ev) => {
                 const btn = ev.get_button();
                 if (btn === Clutter.BUTTON_PRIMARY) {

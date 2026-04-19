@@ -42,6 +42,48 @@
     background-color: rgba(255, 255, 255, 0.14);
 }
 
+/* When the floating overlay is attached below, square off the bottom so
+   the pill and overlay visually merge into one "island". The overlay
+   itself renders with a matching square top edge. */
+.dynisland-pill.attached-below {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+}
+
+/* ================= Floating expansion overlay ================= */
+
+/* The overlay is parented to Main.layoutManager.uiGroup and absolutely
+   positioned by ExpansionController under the pill. The top edge sits
+   flush with (or 1px overlapping) the panel's bottom edge. */
+.dynisland-overlay {
+    background-color: rgba(30, 30, 30, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: none;
+    border-radius: 0 0 18px 18px;
+    color: #f0f0f0;
+    padding: 14px 20px 16px 20px;
+    min-width: 320px;
+    min-height: 80px;
+}
+
+.light .dynisland-overlay {
+    background-color: rgba(250, 250, 250, 0.95);
+    border-color: rgba(0, 0, 0, 0.10);
+    color: #2e2e2e;
+}
+
+.dynisland-overlay-label {
+    font-size: 14pt;
+    font-weight: 500;
+}
+
+.dynisland-overlay-sublabel {
+    font-size: 10pt;
+    opacity: 0.72;
+    padding-top: 4px;
+}
+
 /* Split segments. */
 .dynisland-segment {
     background-color: rgba(0, 0, 0, 0.35);
