@@ -13,16 +13,18 @@ export const IslandOverlay = GObject.registerClass(
 class IslandOverlay extends St.Widget {
     _init() {
         super._init({
+            // Clutter.BoxLayout only accepts orientation/spacing; child alignment
+            // is expressed on the child actors (x_expand / x_align) instead.
             style_class: 'dynisland-overlay',
             layout_manager: new Clutter.BoxLayout({
                 orientation: Clutter.Orientation.VERTICAL,
-                x_align: Clutter.ActorAlign.FILL,
-                y_align: Clutter.ActorAlign.CENTER,
             }),
             reactive: true,
             track_hover: true,
             opacity: 0,
             visible: false,
+            x_expand: false,
+            y_expand: false,
         });
         this.accessible_role = ATK_ROLE_PANEL;
 
