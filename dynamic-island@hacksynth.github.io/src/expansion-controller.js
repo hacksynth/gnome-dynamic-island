@@ -29,6 +29,7 @@ export class ExpansionController {
         this._view = view;
         this._manager = manager;
         this._overlay = null;
+        this._closing = false;      // close anim in flight
         this._pillHover = false;
         this._overlayHover = false;
         this._graceTimerId = 0;
@@ -38,7 +39,6 @@ export class ExpansionController {
         this._pillSignalIds = [];
         this._overlaySignalIds = [];
         this._lastVM = null;
-        this._isOpen = false;
 
         // Hook pill enter/leave. Button-press and key-press stay owned by
         // InteractionController; this controller only cares about hover.
@@ -118,16 +118,12 @@ export class ExpansionController {
             pillHover: this._pillHover,
             overlayHover: this._overlayHover,
             pinned: vm.pinned,
-            animating: this._isOpen && !this._isWanted(vm),
+            animating: this._closing,
         });
         if (decision.target === 'open') this._ensureOpen(vm);
         else this._ensureClosed();
 
         if (this._overlay) this._overlay.setContentForVM(vm);
-    }
-
-    _isWanted(vm) {
-        return vm.hovered || vm.pinned;
     }
 
     _ensureOpen(vm) {
@@ -137,6 +133,7 @@ export class ExpansionController {
             return;
         }
         if (!this._overlay) {
+            // Fresh mount.
             this._overlay = new IslandOverlay();
             this._overlay.setContentForVM(vm);
             Main.layoutManager.uiGroup.add_child(this._overlay);
@@ -144,26 +141,34 @@ export class ExpansionController {
             this._view.setAttachedBelow(true);
             this._overlay.openAt(rect);
             this._connectCapturedEvent();
+        } else if (this._closing) {
+            // Reverse a close animation already in flight: clear the flag,
+            // re-run openAt on the same actor (it calls remove_all_transitions
+            // internally), ensure pill bottom stays squared.
+            this._closing = false;
+            this._view.setAttachedBelow(true);
+            this._overlay.openAt(rect);
         } else {
             // Already open — just reposition.
             this._overlay.reposition(rect);
         }
-        this._isOpen = true;
     }
 
     _ensureClosed() {
-        if (!this._overlay) return;
+        if (!this._overlay || this._closing) return;
+        this._closing = true;
         const overlay = this._overlay;
-        this._overlay = null;
-        this._isOpen = false;
-        this._detachOverlayHandlers(overlay);
         this._disconnectCapturedEvent();
         overlay.closeAndDetach(() => {
+            // If a reopen arrived during the animation, _closing was reset
+            // to false and _ensureOpen already re-animated this same actor.
+            if (!this._closing) return;
+            this._closing = false;
+            this._detachOverlayHandlers(overlay);
             if (overlay.get_parent())
                 overlay.get_parent().remove_child(overlay);
             overlay.destroy();
-            // Defer the pill corner reset until the close anim finishes so
-            // the visual seam stays intact during the slide-up.
+            if (this._overlay === overlay) this._overlay = null;
             this._view.setAttachedBelow(false);
         });
     }
