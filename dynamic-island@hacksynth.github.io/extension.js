@@ -5,6 +5,7 @@ import { ActivityManager } from './src/activity-manager.js';
 import { IslandView } from './src/island-view.js';
 import { PanelIntegration } from './src/panel-integration.js';
 import { InteractionController } from './src/interaction-controller.js';
+import { KeyboardProvider } from './src/providers/keyboard.js';
 
 export default class DynamicIslandExtension extends Extension {
     enable() {
@@ -21,7 +22,8 @@ export default class DynamicIslandExtension extends Extension {
             return GLib.SOURCE_CONTINUE;
         });
 
-        this._providers = [];   // Tasks 10-14
+        this._providers = [new KeyboardProvider()];
+        for (const p of this._providers) p.enable(this._manager, this.getSettings());
     }
 
     disable() {
