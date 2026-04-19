@@ -3,10 +3,14 @@ import St from 'gi://St';
 import Clutter from 'gi://Clutter';
 
 export const IslandView = GObject.registerClass(
-class IslandView extends St.BoxLayout {
+class IslandView extends St.Widget {
     _init() {
         super._init({
             style_class: 'dynisland-pill state-idle',
+            // BinLayout stacks children on top of each other and honors each
+            // child's x_align/y_align, so the base label stays centered as
+            // the pill grows to 64px in the expanded state.
+            layout_manager: new Clutter.BinLayout(),
             reactive: true,
             track_hover: true,
             x_align: Clutter.ActorAlign.CENTER,
@@ -18,6 +22,7 @@ class IslandView extends St.BoxLayout {
         // Underlying content (compact/split/expanded) stays mounted.
         this._baseLabel = new St.Label({
             style_class: 'dynisland-label',
+            x_align: Clutter.ActorAlign.CENTER,
             y_align: Clutter.ActorAlign.CENTER,
         });
         this.add_child(this._baseLabel);
@@ -25,6 +30,7 @@ class IslandView extends St.BoxLayout {
         // Overlay child for transient flashes — fades over the base content.
         this._flashLabel = new St.Label({
             style_class: 'dynisland-label',
+            x_align: Clutter.ActorAlign.CENTER,
             y_align: Clutter.ActorAlign.CENTER,
             opacity: 0,
             visible: false,
