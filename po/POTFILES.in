@@ -1,0 +1,11 @@
+dynamic-island@hacksynth.github.io/prefs.js
+dynamic-island@hacksynth.github.io/src/island-view.js
+dynamic-island@hacksynth.github.io/src/panel-integration.js
+dynamic-island@hacksynth.github.io/src/interaction-controller.js
+dynamic-island@hacksynth.github.io/src/provider-display.js
+dynamic-island@hacksynth.github.io/src/i18n.js
+dynamic-island@hacksynth.github.io/src/providers/keyboard.js
+dynamic-island@hacksynth.github.io/src/providers/volume-brightness.js
+dynamic-island@hacksynth.github.io/src/providers/power.js
+dynamic-island@hacksynth.github.io/src/providers/notification.js
+dynamic-island@hacksynth.github.io/src/providers/media.js
