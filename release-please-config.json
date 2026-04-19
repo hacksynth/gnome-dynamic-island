@@ -1,0 +1,12 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "gnome-dynamic-island",
+      "changelog-path": "CHANGELOG.md",
+      "include-v-in-tag": true,
+      "draft": false,
+      "prerelease": false
+    }
+  }
+}
