@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist>
+<schemalist gettext-domain="dynamic-island">
   <schema id="org.gnome.shell.extensions.dynamic-island"
           path="/org/gnome/shell/extensions/dynamic-island/">
 
@@ -45,8 +45,10 @@
       <range min="5" max="50"/><default>15</default>
       <summary>Battery percentage below which a warning flashes</summary></key>
 
-    <key name="keyboard-flash-caps-lock" type="b"><default>true</default></key>
-    <key name="keyboard-flash-layout-switch" type="b"><default>true</default></key>
+    <key name="keyboard-flash-caps-lock" type="b"><default>true</default>
+      <summary>Flash the pill when Caps Lock toggles</summary></key>
+    <key name="keyboard-flash-layout-switch" type="b"><default>true</default>
+      <summary>Flash the pill when the keyboard layout changes</summary></key>
 
     <!-- Appearance -->
     <key name="idle-content" type="s">

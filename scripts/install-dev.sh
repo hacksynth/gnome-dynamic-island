@@ -27,6 +27,8 @@ if [ -d "$REPO_DIR/$UUID/schemas" ]; then
     echo "Compiled schemas in $REPO_DIR/$UUID/schemas"
 fi
 
+bash "$(dirname "$0")/compile-mo.sh"
+
 echo
 echo "Next steps:"
 echo "  1. Log out and log back in (GNOME 50 on Wayland has no shell reload)."

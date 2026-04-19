@@ -59,3 +59,16 @@ Install: `./scripts/install-dev.sh`, then log out / in, then
 - [ ] Five enable/disable cycles leave zero leaked children in `Main.panel._centerBox` (looking-glass).
 - [ ] Known v1 limitation: `volume-replace-native-osd` pref only takes effect after a disable/enable of the extension. This is documented and intentional for v1.
 - [ ] Known v1 limitation: `idle-content`, `idle-custom-text`, `pill-width-multiplier` prefs are persisted but not consumed by the view in v1.
+
+## Bilingual UI (i18n)
+
+These checks require the extension to be installed (`bash scripts/install-dev.sh`) and GNOME Shell reloaded.
+
+- [ ] `LANG=en_US.UTF-8 gnome-extensions prefs dynamic-island@hacksynth.github.io` — every group title, row, and dropdown reads in English.
+- [ ] `LANG=zh_CN.UTF-8 gnome-extensions prefs dynamic-island@hacksynth.github.io` — same surfaces read in Chinese ("行为", "展开触发方式", 等).
+- [ ] Under `LANG=zh_CN.UTF-8`, toggle Caps Lock → pill flashes "大写锁定开" / "大写锁定关".
+- [ ] Under `LANG=zh_CN.UTF-8`, plug/unplug the charger → "充电器已连接" / "充电器已断开".
+- [ ] Under `LANG=zh_CN.UTF-8`, change volume → "音量 42%" or "已静音 0%".
+- [ ] Under `LANG=zh_CN.UTF-8`, right-click the pill → menu reads "首选项…" and "禁用 键盘" (the provider name is localized too).
+- [ ] `gsettings describe org.gnome.shell.extensions.dynamic-island transient-duration-ms` under `LANG=en_US.UTF-8` vs `LANG=zh_CN.UTF-8` — summary switches language.
+- [ ] `npm test` — tests/i18n.test.js passes (no untranslated entries, expected msgids present).

@@ -1,0 +1,245 @@
+# Chinese translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-19 22:40+0800\n"
+"PO-Revision-Date: 2026-04-19 22:40+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:9
+#: dynamic-island@hacksynth.github.io/src/panel-integration.js:29
+msgid "Dynamic Island"
+msgstr "动态岛"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:12
+msgid "Behavior"
+msgstr "行为"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:13
+msgid "Expansion trigger"
+msgstr "展开触发方式"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:14
+msgid "Hover + click to pin"
+msgstr "悬停 + 单击固定"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:14
+msgid "Click only"
+msgstr "仅单击"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:15
+msgid "Transient flash duration (ms)"
+msgstr "瞬时提示持续时间(毫秒)"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:20
+msgid "Tier order (comma-separated)"
+msgstr "层级顺序(逗号分隔)"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:33
+msgid "Providers"
+msgstr "信息源"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:40
+msgid "Appearance"
+msgstr "外观"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:41
+msgid "Idle content"
+msgstr "空闲时显示"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:42
+msgid "Clock"
+msgstr "时钟"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:42
+msgid "Blank"
+msgstr "空白"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:42
+msgid "Custom text"
+msgstr "自定义文本"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:43
+msgid "Custom idle text"
+msgstr "空闲自定义文本"
+
+#: dynamic-island@hacksynth.github.io/prefs.js:44
+msgid "Pill width multiplier"
+msgstr "胶囊宽度倍率"
+
+#: dynamic-island@hacksynth.github.io/src/island-view.js:52
+msgid "Dynamic Island (idle)"
+msgstr "动态岛(空闲)"
+
+#: dynamic-island@hacksynth.github.io/src/island-view.js:68
+#, javascript-format
+msgid "Flash: %s"
+msgstr "提示:%s"
+
+#: dynamic-island@hacksynth.github.io/src/panel-integration.js:32
+#, javascript-format
+msgid "Detected %d other center-box extension. Layout may be cramped."
+msgid_plural "Detected %d other center-box extensions. Layout may be cramped."
+msgstr[0] "检测到 %d 个其他 center-box 扩展,布局可能拥挤。"
+
+#: dynamic-island@hacksynth.github.io/src/interaction-controller.js:49
+msgid "Preferences…"
+msgstr "首选项…"
+
+#: dynamic-island@hacksynth.github.io/src/interaction-controller.js:57
+#, javascript-format
+msgid "Disable %s"
+msgstr "禁用 %s"
+
+#: dynamic-island@hacksynth.github.io/src/provider-display.js:9
+msgid "Media"
+msgstr "媒体"
+
+#: dynamic-island@hacksynth.github.io/src/provider-display.js:10
+#: dynamic-island@hacksynth.github.io/src/providers/notification.js:95
+msgid "Notifications"
+msgstr "通知"
+
+#: dynamic-island@hacksynth.github.io/src/provider-display.js:11
+msgid "Volume / Brightness"
+msgstr "音量 / 亮度"
+
+#: dynamic-island@hacksynth.github.io/src/provider-display.js:12
+msgid "Power"
+msgstr "电源"
+
+#: dynamic-island@hacksynth.github.io/src/provider-display.js:13
+msgid "Keyboard"
+msgstr "键盘"
+
+#: dynamic-island@hacksynth.github.io/src/providers/keyboard.js:53
+msgid "Caps Lock on"
+msgstr "大写锁定开"
+
+#: dynamic-island@hacksynth.github.io/src/providers/keyboard.js:53
+msgid "Caps Lock off"
+msgstr "大写锁定关"
+
+#: dynamic-island@hacksynth.github.io/src/providers/keyboard.js:61
+#, javascript-format
+msgid "Layout · %s"
+msgstr "输入法 · %s"
+
+#: dynamic-island@hacksynth.github.io/src/providers/volume-brightness.js:38
+#: dynamic-island@hacksynth.github.io/src/providers/volume-brightness.js:78
+msgid "Volume"
+msgstr "音量"
+
+#: dynamic-island@hacksynth.github.io/src/providers/volume-brightness.js:78
+msgid "Muted"
+msgstr "已静音"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:61
+msgid "Charging"
+msgstr "充电中"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:61
+msgid "Full"
+msgstr "已充满"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:61
+msgid "On battery"
+msgstr "使用电池"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:67
+msgid "Charger connected"
+msgstr "充电器已连接"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:67
+msgid "Charger disconnected"
+msgstr "充电器已断开"
+
+#: dynamic-island@hacksynth.github.io/src/providers/power.js:79
+#, javascript-format
+msgid "Battery low — %d%%"
+msgstr "电量低 — %d%%"
+
+#: dynamic-island@hacksynth.github.io/src/providers/notification.js:91
+msgid "Notification"
+msgstr "通知"
+
+#: dynamic-island@hacksynth.github.io/src/providers/notification.js:94
+#, javascript-format
+msgid "%d new"
+msgid_plural "%d new"
+msgstr[0] "%d 条新消息"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:9
+msgid "Priority order for activity tiers"
+msgstr "活动层级的优先顺序"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:15
+msgid "What causes the pill to expand"
+msgstr "触发胶囊展开的方式"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:21
+msgid "Duration of transient flashes in milliseconds"
+msgstr "瞬时提示的持续时间(毫秒)"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:27
+msgid "Enabled provider ids"
+msgstr "已启用的信息源 id 列表"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:31
+msgid "Show MPRIS cover art on compact view"
+msgstr "在紧凑视图中显示 MPRIS 封面"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:33
+msgid "Bus name of preferred MPRIS player; empty = most recently played"
+msgstr "偏好 MPRIS 播放器的 bus 名称;留空则选取最近播放的"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:36
+msgid "Desktop file ids whose notifications do not surface in the pill"
+msgstr "其通知不在胶囊中显示的桌面文件 id"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:39
+msgid "Number of notifications before collapsing to \"N new\""
+msgstr "合并为\"N 条新消息\"前的通知数量"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:42
+msgid "Suppress the built-in GNOME OSD while the pill flashes"
+msgstr "胶囊闪烁时抑制 GNOME 自带 OSD"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:46
+msgid "Battery percentage below which a warning flashes"
+msgstr "电量低于该百分比时触发提示"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:49
+msgid "Flash the pill when Caps Lock toggles"
+msgstr "大写锁定切换时闪烁胶囊"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:51
+msgid "Flash the pill when the keyboard layout changes"
+msgstr "键盘布局切换时闪烁胶囊"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:57
+msgid "What the pill shows in idle state"
+msgstr "空闲状态下胶囊显示的内容"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:61
+msgid "Text shown when idle-content = custom"
+msgstr "idle-content 为自定义时显示的文本"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:65
+msgid "Scales the pill base width"
+msgstr "缩放胶囊的基础宽度"
+
+#: dynamic-island@hacksynth.github.io/schemas/org.gnome.shell.extensions.dynamic-island.gschema.xml:69
+msgid "Use Adwaita tokens that track light/dark preference"
+msgstr "使用随亮/暗偏好变化的 Adwaita 颜色"

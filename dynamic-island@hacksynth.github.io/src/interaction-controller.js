@@ -2,6 +2,9 @@ import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from './i18n.js';
+import { providerDisplayName } from './provider-display.js';
 
 export class InteractionController {
     constructor(view, manager, extension) {
@@ -43,14 +46,15 @@ export class InteractionController {
         Main.uiGroup.add_child(menu.actor);
         menu.actor.hide();
 
-        const prefsItem = new PopupMenu.PopupMenuItem('Preferences…');
+        const prefsItem = new PopupMenu.PopupMenuItem(_('Preferences…'));
         prefsItem.connect('activate', () => this._extension.openPreferences());
         menu.addMenuItem(prefsItem);
 
         const vm = this._manager._lastVM;
         const current = vm.flashing ?? vm.leading ?? vm.trailing;
         if (current) {
-            const disableItem = new PopupMenu.PopupMenuItem(`Disable ${current.providerId}`);
+            const disableItem = new PopupMenu.PopupMenuItem(
+                format(_('Disable %s'), providerDisplayName(current.providerId, _)));
             disableItem.connect('activate', () => {
                 const settings = this._extension.getSettings();
                 const enabled = new Set(settings.get_strv('providers-enabled'));

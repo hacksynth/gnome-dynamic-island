@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "i18n:update": "bash scripts/update-po.sh",
+    "i18n:compile": "bash scripts/compile-mo.sh"
   }
 }

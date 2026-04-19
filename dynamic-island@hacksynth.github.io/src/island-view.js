@@ -1,15 +1,16 @@
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import Clutter from 'gi://Clutter';
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from './i18n.js';
 
 export const IslandView = GObject.registerClass(
 class IslandView extends St.Widget {
     _init() {
         super._init({
             style_class: 'dynisland-pill state-idle',
-            // BinLayout stacks children on top of each other and honors each
-            // child's x_align/y_align, so the base label stays centered as
-            // the pill grows to 64px in the expanded state.
+            // BinLayout stacks base + flash overlay; each child's y_align
+            // handles vertical centering inside the pill's content box.
             layout_manager: new Clutter.BinLayout(),
             reactive: true,
             track_hover: true,
@@ -48,7 +49,7 @@ class IslandView extends St.Widget {
         // Base content always reflects the underlying slots (never cleared by a flash).
         const basePrimary = vm.leading ?? vm.trailing;
         this._baseLabel.text = basePrimary ? this._formatBase(vm, basePrimary) : '';
-        this.accessible_name = basePrimary ? basePrimary.label : 'Dynamic Island (idle)';
+        this.accessible_name = basePrimary ? basePrimary.label : _('Dynamic Island (idle)');
 
         // Transient overlay lifecycle.
         if (vm.flashing) {
@@ -64,7 +65,7 @@ class IslandView extends St.Widget {
                     mode: Clutter.AnimationMode.EASE_OUT_QUAD,
                 });
                 this.add_style_class_name('flashing');
-                this.accessible_description = `Flash: ${vm.flashing.label}`;
+                this.accessible_description = format(_('Flash: %s'), vm.flashing.label);
             }
         } else if (this._currentFlashId) {
             this._currentFlashId = null;
