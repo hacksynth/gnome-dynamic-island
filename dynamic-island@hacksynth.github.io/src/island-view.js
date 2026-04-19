@@ -30,7 +30,8 @@ class IslandView extends St.Widget {
         });
         this.add_child(this._baseLabel);
 
-        // Overlay child for transient flashes — fades over the base content.
+        // Overlay child for transient flashes. While it is visible, the base
+        // label is hidden so stacked text does not overlap.
         this._flashLabel = new St.Label({
             style_class: 'dynisland-label',
             x_align: Clutter.ActorAlign.CENTER,
@@ -73,6 +74,7 @@ class IslandView extends St.Widget {
 
         // Transient overlay lifecycle.
         if (vm.flashing) {
+            this._baseLabel.hide();
             if (vm.flashing.id !== this._currentFlashId) {
                 this._currentFlashId = vm.flashing.id;
                 this._flashLabel.text = vm.flashing.sublabel
@@ -93,10 +95,18 @@ class IslandView extends St.Widget {
                 opacity: 0,
                 duration: 120,
                 mode: Clutter.AnimationMode.EASE_OUT_QUAD,
-                onComplete: () => this._flashLabel.hide(),
+                onComplete: () => {
+                    if (!this._currentFlashId) {
+                        this._flashLabel.hide();
+                        this._baseLabel.show();
+                    }
+                },
             });
             this.remove_style_class_name('flashing');
             this.accessible_description = '';
+        } else {
+            this._flashLabel.hide();
+            this._baseLabel.show();
         }
     }
 
