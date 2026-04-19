@@ -9,6 +9,9 @@ export class KeyboardProvider {
         this._settings = null;
         this._handlers = [];
         this._sources = null;
+        // state-changed fires on every modifier (Shift, Ctrl, locks, etc.).
+        // Track the last observed caps-lock state so we only flash on transitions.
+        this._lastCapsLock = null;
     }
 
     enable(manager, settings) {
@@ -22,6 +25,7 @@ export class KeyboardProvider {
         );
 
         const keymap = Clutter.get_default_backend().get_default_seat().get_keymap();
+        this._lastCapsLock = keymap.get_caps_lock_state();
         this._handlers.push([keymap, keymap.connect('state-changed', () => this._flashCapsLock(keymap))]);
     }
 
@@ -33,13 +37,16 @@ export class KeyboardProvider {
         }
         this._handlers = [];
         this._sources = null;
+        this._lastCapsLock = null;
         this._manager?.remove(`${this.id}:flash`);
         this._manager = null;
     }
 
     _flashCapsLock(keymap) {
-        if (!this._settings?.get_boolean('keyboard-flash-caps-lock')) return;
         const on = keymap.get_caps_lock_state();
+        if (on === this._lastCapsLock) return;   // modifier change wasn't caps lock
+        this._lastCapsLock = on;
+        if (!this._settings?.get_boolean('keyboard-flash-caps-lock')) return;
         this._push(`Caps Lock ${on ? 'on' : 'off'}`);
     }
 
