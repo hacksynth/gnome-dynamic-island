@@ -1,4 +1,5 @@
 .superpowers/
 node_modules/
+package-lock.json
 *.log
 dynamic-island@hacksynth.github.io/schemas/gschemas.compiled
