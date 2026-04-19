@@ -1,5 +1,7 @@
 import Gio from 'gi://Gio';
 import { createActivity, _now } from '../activity.js';
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from '../i18n.js';
 
 const UPOWER_PATH = '/org/freedesktop/UPower/devices/DisplayDevice';
 const UPOWER_IFACE = 'org.freedesktop.UPower.Device';
@@ -56,13 +58,13 @@ export class PowerProvider {
             tier: 'ambient',
             slot: 'either',
             label: `${Math.round(pct)}%`,
-            sublabel: state === 1 ? 'Charging' : state === 4 ? 'Full' : 'On battery',
+            sublabel: state === 1 ? _('Charging') : state === 4 ? _('Full') : _('On battery'),
         }));
 
         // Plug/unplug transient.
         const plugged = (state === 1 || state === 4);
         if (this._lastPlugged !== null && plugged !== this._lastPlugged) {
-            this._flash(plugged ? 'Charger connected' : 'Charger disconnected');
+            this._flash(plugged ? _('Charger connected') : _('Charger disconnected'));
         }
         this._lastPlugged = plugged;
 
@@ -74,7 +76,7 @@ export class PowerProvider {
             const step = Math.floor(roundedPct / 5) * 5;
             if (this._lastLowFlashedPct !== step) {
                 this._lastLowFlashedPct = step;
-                this._flash(`Battery low — ${roundedPct}%`);
+                this._flash(format(_('Battery low — %d%%'), roundedPct));
             }
         } else {
             this._lastLowFlashedPct = null;   // reset when plugged or above threshold
