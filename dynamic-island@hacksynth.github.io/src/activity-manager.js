@@ -96,7 +96,7 @@ export class ActivityManager {
             flashing,
             hovered: this._hovered,
             pinned: this._pinned,
-            ambientOverflow: ambients,
+            ambientOverflow: Object.freeze(ambients),
         };
     }
 

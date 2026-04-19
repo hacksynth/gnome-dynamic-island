@@ -71,27 +71,33 @@ test('pin survives hover-off', () => {
 test('transient sets flashing and keeps underlying slots', () => {
     let t = 1_000_000;
     _setFakeClock(() => t);
-    const { m, last } = mgr();
-    m.push(act({ id: 'media', providerId: 'media', tier: 'persistent', slot: 'leading', label: 'Song' }));
-    m.push(act({ id: 'vol',   providerId: 'volume', tier: 'transient', slot: 'either', label: '70%',
-                 expiresAt: t + 1_500_000 }));
-    assert.equal(last().flashing.id, 'vol');
-    assert.equal(last().leading.id, 'media');
-    assert.equal(last().baseState, 'compact');
-    _setFakeClock(null);
+    try {
+        const { m, last } = mgr();
+        m.push(act({ id: 'media', providerId: 'media', tier: 'persistent', slot: 'leading', label: 'Song' }));
+        m.push(act({ id: 'vol',   providerId: 'volume', tier: 'transient', slot: 'either', label: '70%',
+                     expiresAt: t + 1_500_000 }));
+        assert.equal(last().flashing.id, 'vol');
+        assert.equal(last().leading.id, 'media');
+        assert.equal(last().baseState, 'compact');
+    } finally {
+        _setFakeClock(null);
+    }
 });
 
 test('transient clears when clock passes expiresAt and tick() runs', () => {
     let t = 1_000_000;
     _setFakeClock(() => t);
-    const { m, last } = mgr();
-    m.push(act({ id: 'vol', providerId: 'volume', tier: 'transient', slot: 'either', label: '70%',
-                 expiresAt: t + 1_500_000 }));
-    assert.equal(last().flashing.id, 'vol');
-    t = t + 2_000_000;
-    m.tick();
-    assert.equal(last().flashing, null);
-    _setFakeClock(null);
+    try {
+        const { m, last } = mgr();
+        m.push(act({ id: 'vol', providerId: 'volume', tier: 'transient', slot: 'either', label: '70%',
+                     expiresAt: t + 1_500_000 }));
+        assert.equal(last().flashing.id, 'vol');
+        t = t + 2_000_000;
+        m.tick();
+        assert.equal(last().flashing, null);
+    } finally {
+        _setFakeClock(null);
+    }
 });
 
 test('ambient activities populate ambientOverflow only', () => {
@@ -122,4 +128,13 @@ test('update replaces an activity by id preserving startedAt ordering', () => {
     const a2 = act({ id: 'a', providerId: 'p', tier: 'persistent', slot: 'leading', label: 'L2', startedAt: 20 });
     m.update(a2);
     assert.equal(last().leading.label, 'L2');
+});
+
+test('two either-slot activities: higher priority → leading, lower → trailing', () => {
+    const { m, last } = mgr();
+    m.push(act({ id: 'hi', providerId: 'p', tier: 'persistent', slot: 'either', label: 'Hi', priority: 5 }));
+    m.push(act({ id: 'lo', providerId: 'p', tier: 'persistent', slot: 'either', label: 'Lo', priority: 0 }));
+    assert.equal(last().baseState, 'split');
+    assert.equal(last().leading.id, 'hi');
+    assert.equal(last().trailing.id, 'lo');
 });

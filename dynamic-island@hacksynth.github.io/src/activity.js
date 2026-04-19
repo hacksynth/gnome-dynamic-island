@@ -39,6 +39,8 @@ export function assertActivity(a) {
     }
     if (!TIERS.has(a.tier)) throw new Error(`Activity.tier invalid: ${a.tier}`);
     if (!SLOTS.has(a.slot)) throw new Error(`Activity.slot invalid: ${a.slot}`);
+    if (typeof a.priority !== 'number' || !Number.isFinite(a.priority))
+        throw new Error('Activity.priority must be finite number');
     if (typeof a.startedAt !== 'number' || !Number.isFinite(a.startedAt))
         throw new Error('Activity.startedAt must be finite number');
     if (a.expiresAt !== undefined && (typeof a.expiresAt !== 'number' || !Number.isFinite(a.expiresAt)))

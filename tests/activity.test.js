@@ -78,3 +78,13 @@ test('assertActivity rejects non-finite startedAt and expiresAt', () => {
         );
     }
 });
+
+test('assertActivity rejects non-finite priority', () => {
+    const base = { id: 'x', providerId: 'p', tier: 'persistent', slot: 'either', label: 'L', startedAt: 10 };
+    for (const bad of [Infinity, NaN, 'high', undefined, null]) {
+        assert.throws(
+            () => assertActivity({ ...base, priority: bad }),
+            /priority/,
+        );
+    }
+});
