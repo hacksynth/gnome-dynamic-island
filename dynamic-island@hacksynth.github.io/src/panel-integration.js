@@ -1,4 +1,6 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import { gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from './i18n.js';
 
 export class PanelIntegration {
     constructor(view) {
@@ -24,8 +26,13 @@ export class PanelIntegration {
         const siblings = center.get_children().filter(c => c !== this._view
             && (!this._dateMenu || c !== this._dateMenu.container));
         if (siblings.length > 0) {
-            Main.notify('Dynamic Island',
-                `Detected ${siblings.length} other center-box extension(s). Layout may be cramped.`);
+            Main.notify(_('Dynamic Island'),
+                format(
+                    ngettext(
+                        'Detected %d other center-box extension. Layout may be cramped.',
+                        'Detected %d other center-box extensions. Layout may be cramped.',
+                        siblings.length),
+                    siblings.length));
         }
     }
 
