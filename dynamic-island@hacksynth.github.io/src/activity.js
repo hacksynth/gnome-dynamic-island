@@ -39,7 +39,10 @@ export function assertActivity(a) {
     }
     if (!TIERS.has(a.tier)) throw new Error(`Activity.tier invalid: ${a.tier}`);
     if (!SLOTS.has(a.slot)) throw new Error(`Activity.slot invalid: ${a.slot}`);
-    if (typeof a.startedAt !== 'number') throw new Error('Activity.startedAt must be number');
+    if (typeof a.startedAt !== 'number' || !Number.isFinite(a.startedAt))
+        throw new Error('Activity.startedAt must be finite number');
+    if (a.expiresAt !== undefined && (typeof a.expiresAt !== 'number' || !Number.isFinite(a.expiresAt)))
+        throw new Error('Activity.expiresAt must be finite number if present');
 }
 
 export function emptyViewModel() {

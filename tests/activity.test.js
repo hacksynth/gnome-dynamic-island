@@ -64,3 +64,17 @@ test('TIERS and SLOTS enumerate the contract', () => {
     assert.deepEqual([...TIERS].sort(), ['ambient', 'persistent', 'transient']);
     assert.deepEqual([...SLOTS].sort(), ['either', 'leading', 'trailing']);
 });
+
+test('assertActivity rejects non-finite startedAt and expiresAt', () => {
+    const base = { id: 'x', providerId: 'p', tier: 'persistent', slot: 'either', label: 'L' };
+    for (const bad of [Infinity, -Infinity, NaN]) {
+        assert.throws(
+            () => assertActivity({ ...base, startedAt: bad }),
+            /finite/,
+        );
+        assert.throws(
+            () => assertActivity({ ...base, startedAt: 10, expiresAt: bad }),
+            /finite/,
+        );
+    }
+});
