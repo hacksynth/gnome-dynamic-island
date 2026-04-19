@@ -1,6 +1,7 @@
 # Manual Verification Checklist
 
-Launch: `./scripts/run-nested.sh`
+Install: `./scripts/install-dev.sh`, then log out / in, then
+`gnome-extensions enable dynamic-island@hacksynth.github.io`.
 
 ## Task 9 — Empty shell
 - [ ] Pill appears centered in the top panel (idle state, subtle or invisible).
