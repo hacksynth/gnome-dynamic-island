@@ -7,9 +7,8 @@ class IslandView extends St.Widget {
     _init() {
         super._init({
             style_class: 'dynisland-pill state-idle',
-            // BinLayout stacks children on top of each other and honors each
-            // child's x_align/y_align, so the base label stays centered as
-            // the pill grows to 64px in the expanded state.
+            // BinLayout stacks base + flash overlay; each child's y_align
+            // handles vertical centering inside the pill's content box.
             layout_manager: new Clutter.BinLayout(),
             reactive: true,
             track_hover: true,

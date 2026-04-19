@@ -28,11 +28,14 @@
     min-width: 220px;
 }
 
+/* Expanded: wider pill, but height stays panel-friendly.
+   #panel has a fixed height (2.2em) that it does NOT grow to fit children,
+   so min-height > panel-height would force the label into a smaller content
+   box and clip the text. Width + radius carry the "expanded" feel instead. */
 .dynisland-pill.state-expanded {
-    padding: 10px 16px;
+    padding: 4px 16px;
     min-width: 320px;
-    min-height: 64px;
-    border-radius: 18px;
+    border-radius: 14px;
 }
 
 .dynisland-pill.flashing {
