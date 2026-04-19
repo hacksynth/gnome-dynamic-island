@@ -6,6 +6,26 @@
 
 A GNOME Shell 50 extension that replaces the top-panel center with an Adwaita-styled Dynamic Island.
 
+## Features
+
+- Replaces the center date/menu area with a compact Dynamic Island pill and
+  restores the original panel content when disabled.
+- Adapts between idle, compact, split, and expanded visual states based on
+  active live activities.
+- Shows idle content from settings: local clock, blank, or custom text.
+- Displays currently playing MPRIS media with track title and artist.
+- Aggregates active notifications in the trailing slot and coalesces them once
+  the notification count reaches the configured threshold.
+- Flashes transient activity for volume changes, Caps Lock changes, keyboard
+  layout switches, charger plug/unplug events, and low battery warnings.
+- Tracks battery state through UPower and uses the configured low-battery
+  threshold for warnings.
+- Lets providers be enabled or disabled from the preferences window, with a
+  right-click menu for preferences and disabling the current provider.
+- Supports hover-to-expand and click-to-pin interaction, with Escape unpinning
+  the island.
+- Includes gettext-based localization with Simplified Chinese translations.
+
 ## Install (development)
 
 ```
