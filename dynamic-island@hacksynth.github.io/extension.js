@@ -7,6 +7,7 @@ import { PanelIntegration } from './src/panel-integration.js';
 import { InteractionController } from './src/interaction-controller.js';
 import { KeyboardProvider } from './src/providers/keyboard.js';
 import { PowerProvider } from './src/providers/power.js';
+import { VolumeBrightnessProvider } from './src/providers/volume-brightness.js';
 
 export default class DynamicIslandExtension extends Extension {
     enable() {
@@ -23,7 +24,11 @@ export default class DynamicIslandExtension extends Extension {
             return GLib.SOURCE_CONTINUE;
         });
 
-        this._providers = [new KeyboardProvider(), new PowerProvider()];
+        this._providers = [
+            new KeyboardProvider(),
+            new PowerProvider(),
+            new VolumeBrightnessProvider(),
+        ];
         for (const p of this._providers) p.enable(this._manager, this.getSettings());
     }
 

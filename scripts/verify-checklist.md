@@ -19,3 +19,9 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Plug/unplug the charger (or simulate with `upower -d` + a live session) flashes "Charger connected/disconnected".
 - [ ] When battery < 15%, a "Battery low — N%" flash appears on each update.
 - [ ] Expanded pill shows an ambient row "N% · Charging/Full/On battery".
+
+## Task 12 — Volume/Brightness provider
+- [ ] Pressing volume keys shows a "Volume N%" flash.
+- [ ] Muting flashes "Muted 0%".
+- [ ] With `volume-replace-native-osd=false` (default), the native OSD still appears alongside.
+- [ ] Flipping to `true`, the native OSD is suppressed and only our pill flashes.
