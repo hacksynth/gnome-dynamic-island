@@ -1,22 +1,23 @@
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
-import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { providerDisplayName } from './src/provider-display.js';
 
 export default class DynamicIslandPrefs extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
-        const page = new Adw.PreferencesPage({ title: 'Dynamic Island', icon_name: 'preferences-system-symbolic' });
+        const page = new Adw.PreferencesPage({ title: _('Dynamic Island'), icon_name: 'preferences-system-symbolic' });
 
         // ---- Behavior group ----
-        const behavior = new Adw.PreferencesGroup({ title: 'Behavior' });
-        behavior.add(this._comboRow(settings, 'expansion-trigger', 'Expansion trigger',
-            [['hover-pin', 'Hover + click to pin'], ['click-only', 'Click only']]));
-        behavior.add(this._spinRow(settings, 'transient-duration-ms', 'Transient flash duration (ms)', 500, 3000, 50));
+        const behavior = new Adw.PreferencesGroup({ title: _('Behavior') });
+        behavior.add(this._comboRow(settings, 'expansion-trigger', _('Expansion trigger'),
+            [['hover-pin', _('Hover + click to pin')], ['click-only', _('Click only')]]));
+        behavior.add(this._spinRow(settings, 'transient-duration-ms', _('Transient flash duration (ms)'), 500, 3000, 50));
 
         // Tier order: comma-separated entry (drag-sortable Adw.Row does not exist as of
         // libadwaita 1.6; the simplest honest surface is a validated text entry that
         // accepts a permutation of the three tiers).
-        const tierRow = new Adw.EntryRow({ title: 'Tier order (comma-separated)' });
+        const tierRow = new Adw.EntryRow({ title: _('Tier order (comma-separated)') });
         tierRow.text = settings.get_strv('tier-order').join(', ');
         tierRow.connect('changed', () => {
             const parts = tierRow.text.split(',').map(s => s.trim()).filter(Boolean);
@@ -29,29 +30,29 @@ export default class DynamicIslandPrefs extends ExtensionPreferences {
         page.add(behavior);
 
         // ---- Providers group ----
-        const providers = new Adw.PreferencesGroup({ title: 'Providers' });
+        const providers = new Adw.PreferencesGroup({ title: _('Providers') });
         for (const id of ['media', 'notification', 'volume-brightness', 'power', 'keyboard']) {
             providers.add(this._providerToggleRow(settings, id));
         }
         page.add(providers);
 
         // ---- Appearance group ----
-        const appearance = new Adw.PreferencesGroup({ title: 'Appearance' });
-        appearance.add(this._comboRow(settings, 'idle-content', 'Idle content',
-            [['clock', 'Clock'], ['blank', 'Blank'], ['custom', 'Custom text']]));
-        appearance.add(this._entryRow(settings, 'idle-custom-text', 'Custom idle text'));
-        appearance.add(this._scaleRow(settings, 'pill-width-multiplier', 'Pill width multiplier', 0.8, 1.5, 0.05));
+        const appearance = new Adw.PreferencesGroup({ title: _('Appearance') });
+        appearance.add(this._comboRow(settings, 'idle-content', _('Idle content'),
+            [['clock', _('Clock')], ['blank', _('Blank')], ['custom', _('Custom text')]]));
+        appearance.add(this._entryRow(settings, 'idle-custom-text', _('Custom idle text')));
+        appearance.add(this._scaleRow(settings, 'pill-width-multiplier', _('Pill width multiplier'), 0.8, 1.5, 0.05));
         page.add(appearance);
 
         window.add(page);
     }
 
     _providerToggleRow(settings, id) {
-        const row = new Adw.ActionRow({ title: id });
+        const row = new Adw.ActionRow({ title: providerDisplayName(id, _) });
         const sw = new Gtk.Switch({ valign: Gtk.Align.CENTER });
         const enabled = settings.get_strv('providers-enabled');
         sw.active = enabled.includes(id);
-        sw.connect('state-set', (_, state) => {
+        sw.connect('state-set', (_sw, state) => {
             const cur = new Set(settings.get_strv('providers-enabled'));
             if (state) cur.add(id); else cur.delete(id);
             settings.set_strv('providers-enabled', [...cur]);
