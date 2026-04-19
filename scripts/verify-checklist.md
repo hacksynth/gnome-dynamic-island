@@ -14,3 +14,8 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Pressing Caps Lock toggles a flash labelled "Caps Lock on" / "Caps Lock off".
 - [ ] Super+Space (or configured layout-switch shortcut) shows a "Layout · <id>" flash.
 - [ ] Disabling the "keyboard-flash-caps-lock" key via `dconf write` suppresses the caps flash.
+
+## Task 11 — Power provider
+- [ ] Plug/unplug the charger (or simulate with `upower -d` + a live session) flashes "Charger connected/disconnected".
+- [ ] When battery < 15%, a "Battery low — N%" flash appears on each update.
+- [ ] Expanded pill shows an ambient row "N% · Charging/Full/On battery".
