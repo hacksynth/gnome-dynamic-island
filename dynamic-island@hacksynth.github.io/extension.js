@@ -9,6 +9,7 @@ import { KeyboardProvider } from './src/providers/keyboard.js';
 import { PowerProvider } from './src/providers/power.js';
 import { VolumeBrightnessProvider } from './src/providers/volume-brightness.js';
 import { MediaProvider } from './src/providers/media.js';
+import { NotificationProvider } from './src/providers/notification.js';
 
 export default class DynamicIslandExtension extends Extension {
     enable() {
@@ -30,6 +31,7 @@ export default class DynamicIslandExtension extends Extension {
             new PowerProvider(),
             new VolumeBrightnessProvider(),
             new MediaProvider(),
+            new NotificationProvider(),
         ];
         for (const p of this._providers) p.enable(this._manager, this.getSettings());
     }

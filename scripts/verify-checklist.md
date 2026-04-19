@@ -31,3 +31,9 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Pause → pill returns to idle; play → pill returns to compact.
 - [ ] Second player started → most recently active wins via `priority` tie-break.
 - [ ] Killing the player (e.g., SIGKILL) cleanly removes the pill content without console errors.
+
+## Task 14 — Notification provider
+- [ ] `notify-send "Hello" "World"` puts "Hello" into the trailing slot.
+- [ ] Sending three more notifications flips the label to "4 new · Notifications".
+- [ ] Dismissing all notifications returns the pill to compact (with media if playing) or idle.
+- [ ] Adding the sending app to `notification-excluded-apps` via dconf causes subsequent notifications from that app to not appear.
