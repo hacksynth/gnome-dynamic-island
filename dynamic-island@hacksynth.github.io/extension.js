@@ -13,8 +13,12 @@ import { NotificationProvider } from './src/providers/notification.js';
 
 export default class DynamicIslandExtension extends Extension {
     enable() {
+        const settings = this.getSettings();
+        this._settings = settings;
+
         this._manager = new ActivityManager();
         this._view = new IslandView();
+        this._view.setSettings(settings);
         this._unsub = this._manager.subscribe(vm => this._view.setViewModel(vm));
         this._panel = new PanelIntegration(this._view);
         this._panel.mount();
@@ -33,7 +37,6 @@ export default class DynamicIslandExtension extends Extension {
             'media': MediaProvider,
             'notification': NotificationProvider,
         };
-        const settings = this.getSettings();
         const enabled = new Set(settings.get_strv('providers-enabled'));
         this._providers = [];
         for (const [id, Cls] of Object.entries(all)) {
@@ -62,9 +65,10 @@ export default class DynamicIslandExtension extends Extension {
     disable() {
         if (this._tickId) { GLib.source_remove(this._tickId); this._tickId = 0; }
         if (this._settingsHandler) {
-            this.getSettings().disconnect(this._settingsHandler);
+            this._settings?.disconnect(this._settingsHandler);
             this._settingsHandler = 0;
         }
+        this._settings = null;
         for (const p of (this._providers ?? [])) p.disable();
         this._providers = [];
 

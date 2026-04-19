@@ -1,8 +1,10 @@
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
 import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { format } from './i18n.js';
+import { resolveIdleText } from './idle-content.js';
 
 export const IslandView = GObject.registerClass(
 class IslandView extends St.Widget {
@@ -39,17 +41,35 @@ class IslandView extends St.Widget {
         this.add_child(this._flashLabel);
 
         this._currentFlashId = null;
+        this._settings = null;
+        this._settingsHandlers = [];
+        this._lastVM = null;
+    }
+
+    setSettings(settings) {
+        this._disconnectSettings();
+        this._settings = settings;
+        if (!settings) return;
+
+        this._settingsHandlers = [
+            settings.connect('changed::idle-content', () => this._refreshIdleContent()),
+            settings.connect('changed::idle-custom-text', () => this._refreshIdleContent()),
+        ];
+        this._refreshIdleContent();
     }
 
     setViewModel(vm) {
+        this._lastVM = vm;
+
         const states = ['idle', 'compact', 'split', 'expanded'];
         for (const s of states) this.remove_style_class_name(`state-${s}`);
         this.add_style_class_name(`state-${vm.baseState}`);
 
         // Base content always reflects the underlying slots (never cleared by a flash).
         const basePrimary = vm.leading ?? vm.trailing;
-        this._baseLabel.text = basePrimary ? this._formatBase(vm, basePrimary) : '';
-        this.accessible_name = basePrimary ? basePrimary.label : _('Dynamic Island (idle)');
+        const idleText = basePrimary ? '' : this._idleText();
+        this._baseLabel.text = basePrimary ? this._formatBase(vm, basePrimary) : idleText;
+        this.accessible_name = basePrimary ? basePrimary.label : (idleText || _('Dynamic Island (idle)'));
 
         // Transient overlay lifecycle.
         if (vm.flashing) {
@@ -86,5 +106,32 @@ class IslandView extends St.Widget {
         if (vm.baseState === 'expanded' && primary.sublabel)
             return `${primary.label} — ${primary.sublabel}`;
         return primary.label;
+    }
+
+    _idleText() {
+        const mode = this._settings?.get_string('idle-content') ?? 'clock';
+        const customText = this._settings?.get_string('idle-custom-text') ?? '';
+        return resolveIdleText(mode, customText, this._clockText());
+    }
+
+    _clockText() {
+        return GLib.DateTime.new_now_local().format('%H:%M') ?? '';
+    }
+
+    _refreshIdleContent() {
+        if (this._lastVM && !(this._lastVM.leading ?? this._lastVM.trailing))
+            this.setViewModel(this._lastVM);
+    }
+
+    _disconnectSettings() {
+        if (!this._settings) return;
+        for (const handler of this._settingsHandlers) this._settings.disconnect(handler);
+        this._settingsHandlers = [];
+        this._settings = null;
+    }
+
+    destroy() {
+        this._disconnectSettings();
+        super.destroy();
     }
 });
