@@ -1,5 +1,9 @@
 # GNOME Dynamic Island
 
+[![CI](https://github.com/hacksynth/gnome-dynamic-island/actions/workflows/ci.yml/badge.svg)](https://github.com/hacksynth/gnome-dynamic-island/actions/workflows/ci.yml)
+[![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2%2B-blue.svg)](LICENSE)
+[![GNOME Shell](https://img.shields.io/badge/GNOME%20Shell-50-informational)](https://release.gnome.org/50/)
+
 A GNOME Shell 50 extension that replaces the top-panel center with an Adwaita-styled Dynamic Island.
 
 ## Install (development)
@@ -31,3 +35,21 @@ npm test            # pure-logic unit tests under node --test
 ## Architecture
 
 See `docs/superpowers/specs/2026-04-19-gnome-dynamic-island-design.md` and `dynamic-island@hacksynth.github.io/docs/provider-contract.md`.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). TL;DR: conventional-commit messages,
+`npm test` must pass, run `npm run i18n:update` if you touched user-visible strings.
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant v2.1](CODE_OF_CONDUCT.md).
+
+## Security
+
+To report a vulnerability, see [SECURITY.md](SECURITY.md). Please do not open
+public issues for security reports.
+
+## License
+
+GPL-2.0-or-later. See [LICENSE](LICENSE).
