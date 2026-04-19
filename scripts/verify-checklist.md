@@ -37,3 +37,10 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Sending three more notifications flips the label to "4 new · Notifications".
 - [ ] Dismissing all notifications returns the pill to compact (with media if playing) or idle.
 - [ ] Adding the sending app to `notification-excluded-apps` via dconf causes subsequent notifications from that app to not appear.
+
+## Task 15 — Preferences window
+- [ ] `gnome-extensions prefs dynamic-island@hacksynth.github.io` opens the preferences window.
+- [ ] Behavior group: Expansion trigger combo + transient duration spinner + tier order entry.
+- [ ] Providers group: five toggle rows, each toggle updates dconf `providers-enabled`.
+- [ ] Appearance group: idle-content combo, custom-text entry, pill-width spin.
+- [ ] Changing any value updates the live pill without a restart (verified via looking-glass).
