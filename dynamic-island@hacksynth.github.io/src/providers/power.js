@@ -12,6 +12,8 @@ export class PowerProvider {
         this._proxy = null;
         this._propsHandler = 0;
         this._lastPlugged = null;
+        this._lastLowFlashedPct = null;
+        this._cancelled = false;
     }
 
     async enable(manager, settings) {
@@ -26,12 +28,14 @@ export class PowerProvider {
             g_flags: Gio.DBusProxyFlags.NONE,
         });
         try { await this._proxy.init_async(0, null); } catch (_) { return; }
+        if (this._cancelled) return;
 
         this._propsHandler = this._proxy.connect('g-properties-changed', () => this._refresh());
         this._refresh();
     }
 
     disable() {
+        this._cancelled = true;
         if (this._proxy && this._propsHandler) this._proxy.disconnect(this._propsHandler);
         this._proxy = null;
         this._propsHandler = 0;
@@ -62,9 +66,19 @@ export class PowerProvider {
         }
         this._lastPlugged = plugged;
 
-        // Low-battery transient.
+        // Low-battery transient — only flash when entering a new 5% step below the threshold
+        // so the user isn't flashed on every UPower property update while sitting at 14%.
         const threshold = this._settings?.get_int('power-low-threshold') ?? 15;
-        if (!plugged && pct <= threshold) this._flash(`Battery low — ${Math.round(pct)}%`);
+        const roundedPct = Math.round(pct);
+        if (!plugged && roundedPct <= threshold) {
+            const step = Math.floor(roundedPct / 5) * 5;
+            if (this._lastLowFlashedPct !== step) {
+                this._lastLowFlashedPct = step;
+                this._flash(`Battery low — ${roundedPct}%`);
+            }
+        } else {
+            this._lastLowFlashedPct = null;   // reset when plugged or above threshold
+        }
     }
 
     _flash(label) {

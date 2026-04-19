@@ -1,4 +1,5 @@
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import { createActivity, _now } from '../activity.js';
 
 const MPRIS_BUS_PREFIX = 'org.mpris.MediaPlayer2.';
@@ -13,6 +14,7 @@ export class MediaProvider {
         this._dbus = null;
         this._busHandler = 0;
         this._players = new Map();   // busName → { proxy, propsHandler }
+        this._cancelled = false;
     }
 
     async enable(manager, settings) {
@@ -34,11 +36,13 @@ export class MediaProvider {
         const [names] = await this._dbus.call(
             'org.freedesktop.DBus', '/org/freedesktop/DBus', 'org.freedesktop.DBus',
             'ListNames', null, null, Gio.DBusCallFlags.NONE, -1, null).then(r => r.deepUnpack());
+        if (this._cancelled) return;
 
         for (const n of names) if (n.startsWith(MPRIS_BUS_PREFIX)) this._addPlayer(n);
     }
 
     disable() {
+        this._cancelled = true;
         if (this._busHandler) this._dbus.signal_unsubscribe(this._busHandler);
         this._busHandler = 0;
         for (const [name, entry] of this._players) {
@@ -58,6 +62,7 @@ export class MediaProvider {
             g_flags: Gio.DBusProxyFlags.GET_INVALIDATED_PROPERTIES,
         });
         try { await proxy.init_async(0, null); } catch (_) { return; }
+        if (this._cancelled) return;
 
         const propsHandler = proxy.connect('g-properties-changed', () => this._refresh(busName, proxy));
         this._players.set(busName, { proxy, propsHandler });
@@ -88,7 +93,7 @@ export class MediaProvider {
             providerId: this.id,
             tier: 'persistent',
             slot: 'leading',
-            priority: Date.now(),   // most recently active wins
+            priority: GLib.get_monotonic_time(),   // most recently active wins (monotonic µs)
             label: title,
             sublabel: artist,
         }));

@@ -56,3 +56,5 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Bump volume during split → transient flash overlays without dropping either slot; slot state returns after expiry.
 - [ ] Run `node --test tests/` → all green.
 - [ ] Five enable/disable cycles leave zero leaked children in `Main.panel._centerBox` (looking-glass).
+- [ ] Known v1 limitation: `volume-replace-native-osd` pref only takes effect after a disable/enable of the extension. This is documented and intentional for v1.
+- [ ] Known v1 limitation: `idle-content`, `idle-custom-text`, `pill-width-multiplier` prefs are persisted but not consumed by the view in v1.

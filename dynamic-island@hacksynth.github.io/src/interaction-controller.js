@@ -17,7 +17,7 @@ export class InteractionController {
             view.connect('button-press-event', (_a, ev) => {
                 const btn = ev.get_button();
                 if (btn === Clutter.BUTTON_PRIMARY) {
-                    manager.setPinned(!manager._pinned);
+                    manager.setPinned(!manager.isPinned());
                     return Clutter.EVENT_STOP;
                 }
                 if (btn === Clutter.BUTTON_SECONDARY) {

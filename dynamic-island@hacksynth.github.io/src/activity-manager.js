@@ -42,6 +42,9 @@ export class ActivityManager {
         this._notify();
     }
 
+    isHovered() { return this._hovered; }
+    isPinned() { return this._pinned; }
+
     // Called by an external ticker to expire transients.
     tick() { this._notify(); }
 

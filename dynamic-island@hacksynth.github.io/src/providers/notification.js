@@ -7,8 +7,10 @@ export class NotificationProvider {
         this._manager = null;
         this._settings = null;
         this._tray = null;
-        this._handlers = [];
-        this._active = new Set();   // notification objects currently tracked
+        this._trayHandlers = [];
+        this._sourceHandlers = new Map();         // source → handler id
+        this._notificationHandlers = new Map();   // notification → handler id
+        this._active = new Set();
     }
 
     enable(manager, settings) {
@@ -16,16 +18,28 @@ export class NotificationProvider {
         this._settings = settings;
         this._tray = Main.messageTray;
 
-        this._handlers.push(
+        this._trayHandlers.push(
             this._tray.connect('source-added', (_t, source) => this._bindSource(source)),
+            this._tray.connect('source-removed', (_t, source) => this._unbindSource(source)),
         );
         for (const src of this._tray.getSources()) this._bindSource(src);
     }
 
     disable() {
         if (!this._tray) return;
-        for (const h of this._handlers) this._tray.disconnect(h);
-        this._handlers = [];
+        for (const id of this._trayHandlers) this._tray.disconnect(id);
+        this._trayHandlers = [];
+
+        for (const [source, id] of this._sourceHandlers) {
+            try { source.disconnect(id); } catch (_) {}
+        }
+        this._sourceHandlers.clear();
+
+        for (const [notif, id] of this._notificationHandlers) {
+            try { notif.disconnect(id); } catch (_) {}
+        }
+        this._notificationHandlers.clear();
+
         this._active.clear();
         this._manager?.remove(`${this.id}:aggregate`);
         this._manager = null;
@@ -33,20 +47,35 @@ export class NotificationProvider {
     }
 
     _bindSource(source) {
-        source.connect('notification-added', (_s, n) => {
+        if (this._sourceHandlers.has(source)) return;
+        const id = source.connect('notification-added', (_s, n) => {
             const excluded = this._settings?.get_strv('notification-excluded-apps') ?? [];
             if (source.app?.get_id && excluded.includes(source.app.get_id())) return;
 
             this._active.add(n);
-            n.connect('destroy', () => { this._active.delete(n); this._rebuild(); });
+            const destroyId = n.connect('destroy', () => {
+                this._notificationHandlers.delete(n);
+                this._active.delete(n);
+                this._rebuild();
+            });
+            this._notificationHandlers.set(n, destroyId);
             this._rebuild();
         });
+        this._sourceHandlers.set(source, id);
+    }
+
+    _unbindSource(source) {
+        const id = this._sourceHandlers.get(source);
+        if (id !== undefined) {
+            try { source.disconnect(id); } catch (_) {}
+            this._sourceHandlers.delete(source);
+        }
     }
 
     _rebuild() {
         const n = this._active.size;
         if (n === 0) {
-            this._manager.remove(`${this.id}:aggregate`);
+            this._manager?.remove(`${this.id}:aggregate`);
             return;
         }
 
@@ -61,7 +90,7 @@ export class NotificationProvider {
             sublabel = 'Notifications';
         }
 
-        this._manager.update(createActivity({
+        this._manager?.update(createActivity({
             id: `${this.id}:aggregate`,
             providerId: this.id,
             tier: 'persistent',

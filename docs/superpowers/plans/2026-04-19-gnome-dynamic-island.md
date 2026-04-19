@@ -2164,6 +2164,7 @@ Callouts the reviewer should know about:
 1. **`tier-order` setting is persisted but not runtime-consumed in v1.** The three tiers have distinct roles (transient = overlay, persistent = slot-filling, ambient = overflow), so reordering them is semantically unclear. The setting exists for forward compatibility; spec §6.1 will be revisited before v2.
 2. **Expansion-trigger pref (`hover-pin` vs `click-only`) is persisted but the `InteractionController` always honors hover.** Wiring it through is a one-boolean change but was out of scope for this plan's tasks; fold it in as a follow-up.
 3. **Animation durations are the CSS-declared 220 ms from Task 4 + hard-coded 120 ms fade in Task 5.** The spec §4.5 values are implemented but not yet settings-bound.
+4. **Appearance prefs (`idle-content`, `idle-custom-text`, `pill-width-multiplier`) are persisted in the gschema but not yet consumed by `IslandView`.** The plumbing path is straightforward (`IslandView.setSettings(settings)` + branch in `setViewModel`'s idle case), but was left out of v1 to keep the initial surface small. Wire them in as follow-up.
 
 ## Post-plan checklist (for agents)
 
