@@ -1,0 +1,57 @@
+name: Bug report
+description: Something in the extension misbehaves
+labels: [bug]
+body:
+  - type: input
+    id: gnome-version
+    attributes:
+      label: GNOME Shell version
+      description: Run `gnome-shell --version`
+      placeholder: "GNOME Shell 50.0"
+    validations:
+      required: true
+  - type: input
+    id: distro
+    attributes:
+      label: Distribution
+      placeholder: "Arch / Fedora 42 / Ubuntu 26.04 / ..."
+    validations:
+      required: true
+  - type: input
+    id: ext-version
+    attributes:
+      label: Extension version
+      description: From `metadata.json` in your installed extension directory.
+      placeholder: "0.1.0 (or git commit sha)"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Numbered steps, starting from a fresh session if possible.
+      placeholder: |
+        1. Enable the extension
+        2. Plug in headphones
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        `journalctl --user -b 0 /usr/bin/gnome-shell | tail -200`
+      render: shell
