@@ -49,3 +49,10 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Toggling a provider off in prefs removes it live (pill stops reflecting its events).
 - [ ] Toggling it back on re-enables without a disable/enable cycle.
 - [ ] `gnome-extensions disable …` on the extension disconnects the settings handler (no leaks on re-enable).
+
+## Task 18 — End-to-end
+- [ ] Clean session: `gnome-extensions reset dynamic-island@hacksynth.github.io`, then enable.
+- [ ] Start media playing + trigger a notification → split state shows title (leading) + notification (trailing).
+- [ ] Bump volume during split → transient flash overlays without dropping either slot; slot state returns after expiry.
+- [ ] Run `node --test tests/` → all green.
+- [ ] Five enable/disable cycles leave zero leaked children in `Main.panel._centerBox` (looking-glass).
