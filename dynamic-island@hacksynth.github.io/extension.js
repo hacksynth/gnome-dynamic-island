@@ -8,6 +8,7 @@ import { InteractionController } from './src/interaction-controller.js';
 import { KeyboardProvider } from './src/providers/keyboard.js';
 import { PowerProvider } from './src/providers/power.js';
 import { VolumeBrightnessProvider } from './src/providers/volume-brightness.js';
+import { MediaProvider } from './src/providers/media.js';
 
 export default class DynamicIslandExtension extends Extension {
     enable() {
@@ -28,6 +29,7 @@ export default class DynamicIslandExtension extends Extension {
             new KeyboardProvider(),
             new PowerProvider(),
             new VolumeBrightnessProvider(),
+            new MediaProvider(),
         ];
         for (const p of this._providers) p.enable(this._manager, this.getSettings());
     }

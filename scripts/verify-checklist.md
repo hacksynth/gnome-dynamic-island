@@ -25,3 +25,9 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Muting flashes "Muted 0%".
 - [ ] With `volume-replace-native-osd=false` (default), the native OSD still appears alongside.
 - [ ] Flipping to `true`, the native OSD is suppressed and only our pill flashes.
+
+## Task 13 — Media provider
+- [ ] Start a song in any MPRIS-capable player (Spotify, mpv, rhythmbox); pill shows the title within ~300ms.
+- [ ] Pause → pill returns to idle; play → pill returns to compact.
+- [ ] Second player started → most recently active wins via `priority` tie-break.
+- [ ] Killing the player (e.g., SIGKILL) cleanly removes the pill content without console errors.
