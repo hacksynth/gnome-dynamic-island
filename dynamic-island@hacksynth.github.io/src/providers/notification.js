@@ -1,5 +1,7 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { createActivity } from '../activity.js';
+import { gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from '../i18n.js';
 
 export class NotificationProvider {
     constructor() {
@@ -83,11 +85,14 @@ export class NotificationProvider {
         let label, sublabel;
         if (n < threshold) {
             const latest = [...this._active].pop();
-            label = latest.title ?? latest.source?.title ?? 'Notification';
+            // Fallback when the source provides no title — translatable.
+            // Notification title/body itself comes from the source app and is
+            // intentionally NOT translated here.
+            label = latest.title ?? latest.source?.title ?? _('Notification');
             sublabel = latest.bannerBodyText ?? latest.body ?? '';
         } else {
-            label = `${n} new`;
-            sublabel = 'Notifications';
+            label = format(ngettext('%d new', '%d new', n), n);
+            sublabel = _('Notifications');
         }
 
         this._manager?.update(createActivity({
