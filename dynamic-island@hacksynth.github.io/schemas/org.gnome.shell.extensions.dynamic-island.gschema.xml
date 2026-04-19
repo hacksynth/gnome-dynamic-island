@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.dynamic-island"
+          path="/org/gnome/shell/extensions/dynamic-island/">
+
+    <!-- Behavior -->
+    <key name="tier-order" type="as">
+      <default>['transient', 'persistent', 'ambient']</default>
+      <summary>Priority order for activity tiers</summary>
+    </key>
+
+    <key name="expansion-trigger" type="s">
+      <choices><choice value="hover-pin"/><choice value="click-only"/></choices>
+      <default>'hover-pin'</default>
+      <summary>What causes the pill to expand</summary>
+    </key>
+
+    <key name="transient-duration-ms" type="i">
+      <range min="500" max="3000"/>
+      <default>1500</default>
+      <summary>Duration of transient flashes in milliseconds</summary>
+    </key>
+
+    <!-- Providers -->
+    <key name="providers-enabled" type="as">
+      <default>['media', 'notification', 'volume-brightness', 'power', 'keyboard']</default>
+      <summary>Enabled provider ids</summary>
+    </key>
+
+    <key name="media-show-cover-art" type="b"><default>true</default>
+      <summary>Show MPRIS cover art on compact view</summary></key>
+    <key name="media-preferred-player" type="s"><default>''</default>
+      <summary>Bus name of preferred MPRIS player; empty = most recently played</summary></key>
+
+    <key name="notification-excluded-apps" type="as"><default>[]</default>
+      <summary>Desktop file ids whose notifications do not surface in the pill</summary></key>
+    <key name="notification-coalesce-threshold" type="i">
+      <range min="1" max="20"/><default>3</default>
+      <summary>Number of notifications before collapsing to "N new"</summary></key>
+
+    <key name="volume-replace-native-osd" type="b"><default>false</default>
+      <summary>Suppress the built-in GNOME OSD while the pill flashes</summary></key>
+
+    <key name="power-low-threshold" type="i">
+      <range min="5" max="50"/><default>15</default>
+      <summary>Battery percentage below which a warning flashes</summary></key>
+
+    <key name="keyboard-flash-caps-lock" type="b"><default>true</default></key>
+    <key name="keyboard-flash-layout-switch" type="b"><default>true</default></key>
+
+    <!-- Appearance -->
+    <key name="idle-content" type="s">
+      <choices><choice value="clock"/><choice value="blank"/><choice value="custom"/></choices>
+      <default>'clock'</default>
+      <summary>What the pill shows in idle state</summary>
+    </key>
+
+    <key name="idle-custom-text" type="s"><default>''</default>
+      <summary>Text shown when idle-content = custom</summary></key>
+
+    <key name="pill-width-multiplier" type="d">
+      <range min="0.8" max="1.5"/><default>1.0</default>
+      <summary>Scales the pill base width</summary>
+    </key>
+
+    <key name="respect-system-theme" type="b"><default>true</default>
+      <summary>Use Adwaita tokens that track light/dark preference</summary></key>
+  </schema>
+</schemalist>
