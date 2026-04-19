@@ -133,6 +133,29 @@ class IslandView extends St.Widget {
             this.setViewModel(this._lastVM);
     }
 
+    // Return the pill's rect in stage (global) coordinates, or null if the
+    // actor has not been allocated yet (during early enable() before a
+    // layout pass). ExpansionController calls this to position the floating
+    // overlay below the pill.
+    getPillRect() {
+        if (!this.get_stage()) return null;
+        const [x, y] = this.get_transformed_position();
+        const [width, height] = this.get_transformed_size();
+        if (!Number.isFinite(x) || !Number.isFinite(y) ||
+            !Number.isFinite(width) || !Number.isFinite(height) ||
+            width <= 0 || height <= 0)
+            return null;
+        return { x, y, width, height };
+    }
+
+    // Toggle the CSS modifier that squares off the pill's bottom corners
+    // so it visually merges with an attached overlay below. The overlay
+    // itself has a matching square top edge.
+    setAttachedBelow(flag) {
+        if (flag) this.add_style_class_name('attached-below');
+        else this.remove_style_class_name('attached-below');
+    }
+
     _disconnectSettings() {
         if (!this._settings) return;
         for (const handler of this._settingsHandlers) this._settings.disconnect(handler);
