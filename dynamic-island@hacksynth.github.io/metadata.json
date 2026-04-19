@@ -1,0 +1,8 @@
+{
+  "name": "Dynamic Island",
+  "description": "Unified live-activity pill that replaces the top-panel center with a morphing Adwaita-styled island.",
+  "uuid": "dynamic-island@hacksynth.github.io",
+  "shell-version": ["50"],
+  "url": "https://github.com/hacksynth/gnome-dynamic-island",
+  "settings-schema": "org.gnome.shell.extensions.dynamic-island"
+}
