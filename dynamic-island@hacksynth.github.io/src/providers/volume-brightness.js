@@ -1,6 +1,8 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js';
 import { createActivity, _now } from '../activity.js';
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { format } from '../i18n.js';
 
 // GvcMixerControl has no 'default-sink-volume-changed' signal. Subscribe to the
 // default sink's notify::volume / notify::is-muted and rebind when the default
@@ -33,7 +35,7 @@ export class VolumeBrightnessProvider {
             this._origShow = osd.show.bind(osd);
             osd.show = (...args) => {
                 const level = args[2];
-                if (Number.isFinite(level)) this._flashGeneric('Volume', Math.round(level * 100));
+                if (Number.isFinite(level)) this._flashGeneric(_('Volume'), Math.round(level * 100));
             };
         }
     }
@@ -73,7 +75,7 @@ export class VolumeBrightnessProvider {
     _flashVolume(sink) {
         if (!sink || !this._volControl) return;
         const pct = Math.round((sink.volume / this._volControl.get_vol_max_norm()) * 100);
-        this._flashGeneric(sink.is_muted ? 'Muted' : 'Volume', pct);
+        this._flashGeneric(sink.is_muted ? _('Muted') : _('Volume'), pct);
     }
 
     _flashGeneric(name, pct) {
@@ -85,7 +87,7 @@ export class VolumeBrightnessProvider {
             providerId: this.id,
             tier: 'transient',
             slot: 'either',
-            label: `${name} ${pct}%`,
+            label: format('%s %d%%', name, pct),
             startedAt: now,
             expiresAt: now + duration,
         }));
