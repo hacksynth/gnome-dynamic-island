@@ -26,18 +26,45 @@ export default class DynamicIslandExtension extends Extension {
             return GLib.SOURCE_CONTINUE;
         });
 
-        this._providers = [
-            new KeyboardProvider(),
-            new PowerProvider(),
-            new VolumeBrightnessProvider(),
-            new MediaProvider(),
-            new NotificationProvider(),
-        ];
-        for (const p of this._providers) p.enable(this._manager, this.getSettings());
+        const all = {
+            'keyboard': KeyboardProvider,
+            'power': PowerProvider,
+            'volume-brightness': VolumeBrightnessProvider,
+            'media': MediaProvider,
+            'notification': NotificationProvider,
+        };
+        const settings = this.getSettings();
+        const enabled = new Set(settings.get_strv('providers-enabled'));
+        this._providers = [];
+        for (const [id, Cls] of Object.entries(all)) {
+            if (enabled.has(id)) {
+                const p = new Cls();
+                p.enable(this._manager, settings);
+                this._providers.push(p);
+            }
+        }
+
+        this._settingsHandler = settings.connect('changed::providers-enabled', () => {
+            // Rebuild the provider set without a full extension restart.
+            for (const p of this._providers) p.disable();
+            const now = new Set(settings.get_strv('providers-enabled'));
+            this._providers = [];
+            for (const [id, Cls] of Object.entries(all)) {
+                if (now.has(id)) {
+                    const p = new Cls();
+                    p.enable(this._manager, settings);
+                    this._providers.push(p);
+                }
+            }
+        });
     }
 
     disable() {
         if (this._tickId) { GLib.source_remove(this._tickId); this._tickId = 0; }
+        if (this._settingsHandler) {
+            this.getSettings().disconnect(this._settingsHandler);
+            this._settingsHandler = 0;
+        }
         for (const p of (this._providers ?? [])) p.disable();
         this._providers = [];
 

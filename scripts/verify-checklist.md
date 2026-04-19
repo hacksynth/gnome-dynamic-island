@@ -44,3 +44,8 @@ Launch: `./scripts/run-nested.sh`
 - [ ] Providers group: five toggle rows, each toggle updates dconf `providers-enabled`.
 - [ ] Appearance group: idle-content combo, custom-text entry, pill-width spin.
 - [ ] Changing any value updates the live pill without a restart (verified via looking-glass).
+
+## Task 16 — Settings-driven providers
+- [ ] Toggling a provider off in prefs removes it live (pill stops reflecting its events).
+- [ ] Toggling it back on re-enables without a disable/enable cycle.
+- [ ] `gnome-extensions disable …` on the extension disconnects the settings handler (no leaks on re-enable).
