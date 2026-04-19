@@ -1,6 +1,8 @@
 import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { createActivity, _now } from '../activity.js';
+import { format } from '../i18n.js';
 
 export class KeyboardProvider {
     constructor() {
@@ -47,7 +49,8 @@ export class KeyboardProvider {
         if (on === this._lastCapsLock) return;   // modifier change wasn't caps lock
         this._lastCapsLock = on;
         if (!this._settings?.get_boolean('keyboard-flash-caps-lock')) return;
-        this._push(`Caps Lock ${on ? 'on' : 'off'}`);
+        // Two separate msgids — xgettext can't extract `Caps Lock ${x ? 'on' : 'off'}`.
+        this._push(on ? _('Caps Lock on') : _('Caps Lock off'));
     }
 
     _flashLayoutSwitch() {
@@ -55,7 +58,7 @@ export class KeyboardProvider {
         const sources = this._sources.get_value('mru-sources').deepUnpack();
         if (!sources.length) return;
         const [, id] = sources[0];
-        this._push(`Layout · ${id}`);
+        this._push(format(_('Layout · %s'), id));
     }
 
     _push(label) {
