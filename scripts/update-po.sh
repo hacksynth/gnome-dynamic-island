@@ -13,13 +13,14 @@ if [ ! -f "$ITS" ]; then
 fi
 
 # 1. Extract from JavaScript sources listed in po/POTFILES.in.
+# --files-from avoids shell word-splitting on paths that could contain spaces.
 xgettext --from-code=UTF-8 --language=JavaScript \
     --keyword=_ --keyword=N_ --keyword=ngettext:1,2 \
     --package-name=dynamic-island \
     --copyright-holder="Dynamic Island contributors" \
     --msgid-bugs-address="https://github.com/hacksynth/gnome-dynamic-island/issues" \
     --output=po/dynamic-island.pot \
-    $(cat po/POTFILES.in)
+    --files-from=po/POTFILES.in
 
 # 2. Merge in the gschema <summary>/<description> entries.
 xgettext --its="$ITS" --join-existing \
