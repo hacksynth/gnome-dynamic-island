@@ -5,6 +5,7 @@
       "package-name": "gnome-dynamic-island",
       "changelog-path": "CHANGELOG.md",
       "include-v-in-tag": true,
+      "include-component-in-tag": false,
       "draft": false,
       "prerelease": false
     }
