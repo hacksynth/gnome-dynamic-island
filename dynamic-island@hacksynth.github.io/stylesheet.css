@@ -1,1 +1,71 @@
-/* Island styles are populated in Task 6. */
+/* Root pill — mounts in panel center box. */
+.dynisland-pill {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: #f0f0f0;
+    padding: 4px 12px;
+    min-height: 20px;
+    transition: all 220ms ease-out;
+    /* GNOME CSS does not support backdrop-filter; we lean on base panel blur. */
+}
+
+/* State modifiers. */
+.dynisland-pill.state-idle {
+    padding: 2px 14px;
+    background-color: transparent;
+    border-color: transparent;
+    color: rgba(240, 240, 240, 0.75);
+}
+
+.dynisland-pill.state-compact {
+    padding: 4px 12px;
+    min-width: 120px;
+}
+
+.dynisland-pill.state-split {
+    padding: 3px 6px;
+    min-width: 220px;
+}
+
+.dynisland-pill.state-expanded {
+    padding: 10px 16px;
+    min-width: 320px;
+    min-height: 64px;
+    border-radius: 18px;
+}
+
+.dynisland-pill.flashing {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Split segments. */
+.dynisland-segment {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 999px;
+    padding: 3px 10px;
+    color: #f0f0f0;
+}
+
+.dynisland-gap { min-width: 6px; }
+
+/* Light theme overrides (gnome-shell adds .light to Main.panel context). */
+.light .dynisland-pill {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.10);
+    color: #2e2e2e;
+}
+
+.light .dynisland-segment {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #f0f0f0;
+}
+
+/* Glyph + label alignment. */
+.dynisland-glyph {
+    icon-size: 16px;
+    margin-right: 6px;
+}
+.dynisland-label { font-size: 11pt; }
+.dynisland-sublabel { color: rgba(240, 240, 240, 0.7); font-size: 9pt; }
+.light .dynisland-sublabel { color: rgba(0, 0, 0, 0.6); }
